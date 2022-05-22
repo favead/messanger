@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="wrapper-profile">
+    <div class="friend-list-profile">
+      <div class="form-row-profile">
+        <div class="button-switch-profile">
+          <button class = 'btn btn-primary btn-sw-profile' id = 'search'>Search</button>
+          <button class = 'btn btn-primary btn-sw-profile' id = 'fr-req'>Friend Requests</button>
+        </div>
+      </div>
+    </div>
+    <div class="user-info-profile">
+      <div class="card-form user-info-profile-card">
+        <div class="card-header">
+          <p>Your profile</p>
+        </div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Username: {{ username }}</li>
+            <li class="list-group-item">Email: {{ email }}</li>
+            <li class="list-group-item li-profile">
+              <form action="/auth/logout" method="post" class="user-form-profile">
+                <button type="submit" class = "btn btn-primary">Log Out</button>
+              </form>
+              <form action="#" method="post">
+                <button type="submit" class = "btn btn-primary">Change password</button>
+              </form>
+            </li>
+          </ul>          
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="{{ url_for('static',filename='js/profile.js') }}"></script>
+{% endblock content %}
+

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<title>48G</title>
+<div class="wrapper container">
+  <header class="header container">
+    <nav class="nav-bar">
+      <ul class="menu ">
+        {% if not session.logged_in %}
+          <li class="menu-item"><a href="{{ url_for('auth.register') }}">Register</a></li>
+          <li class="menu-item">Tododo</li>
+          <li class="menu-item"><a href="{{ url_for('auth.login') }}">Log In</a></li>
+        {% else %}
+          <li class="menu-item"><a href="{{ url_for('index')}}">Messager</a></li>
+          <li class="menu-item">News</li>
+          <li class="menu-item"><a href="{{ url_for('profile.profile')}}">Profile</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </header>
+  {% block content %}
+
+  {% endblock content %}
+  <footer>
+    <div class="footer"></div>
+  </footer>
+</div>

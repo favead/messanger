@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+  {% for r in rel %}
+    <p> {{ r.fir_friend }} </p>
+    <p> {{ r.sec_friend }} </p>
+    <p> self id : {{ user_id  }}</p>
+  {% endfor %}
+  <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+{% endblock content %}

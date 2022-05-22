@@ -1,0 +1,110 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+body {
+  background-color: #dff9ff;
+}
+.header{
+  min-width: 100%;
+  padding: 0 !important;
+  margin: 0 !important;
+  height: 60px;
+  background-color: #fff;
+}
+.wrapper{
+  padding: 0 !important;
+  background-color: #fafafa;
+  min-height: 36rem;
+  min-width: 95%;
+  margin: 20px auto;
+}
+.menu{
+  display: flex;
+  flex-direction: row;
+  float: left;
+  width: 100%;
+  margin-bottom: 0 !important;
+}
+.menu-item{
+  width: 60px;
+  padding: 20px 0;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 0 40px;
+}
+.menu :last-child{
+  margin-left: auto;
+}
+.wrapper-index{
+  margin: 2% !important;
+  min-height: 29rem;
+  min-width: 1rem;
+  display: flex;
+  flex-direction: row;
+}
+.friend-list-index{
+  width: 45%;
+  background-color: green;
+}
+.messages-list-index{
+  background-color: red;
+  margin-left: auto !important;
+}
+.form{
+  max-width: 40%;
+  margin: 30px auto;
+}
+.wrapper-profile{
+  margin: 2%;
+  min-height: 29rem;
+  min-width: 1rem;
+  display: flex;
+  flex-direction: row;
+}
+.friend-list-profile{
+  width: 60%;
+}
+.user-info-profile{
+  width: 40%;
+  justify-content: center;
+}
+.user-info-profile-card{
+  margin: auto 2%;
+}
+.li-profile{
+  display: flex !important;
+  flex-direction: row;
+}
+.user-form-profile{
+  margin-right: auto;
+}
+.search-profile{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.form-row-profile{
+  margin: 2%;
+  display: flex;
+  flex-direction: column;
+}
+.search-input-profile{
+  width: 80%;
+  margin: auto;
+}
+.button-switch-profile{
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+  margin: 0 0 1% 5%;
+}
+.btn-sw-profile:first-child{
+  margin-right: auto;
+}
+.btn-profile-active{
+  background-color: blueviolet !important;
+}
