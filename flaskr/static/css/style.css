@@ -94,17 +94,31 @@ body {
 }
 .search-input-profile{
   width: 80%;
-  margin: auto;
 }
 .button-switch-profile{
   display: flex;
   flex-direction: row;
   width: 80%;
-  margin: 0 0 1% 5%;
+  margin: 0 0 1% 0;
 }
 .btn-sw-profile:first-child{
   margin-right: auto;
 }
 .btn-profile-active{
   background-color: blueviolet !important;
+}
+.user-search-res{
+  margin: 1% 0;
+  width: 80%;
+}
+.search-item-profile{
+  margin: 1% 0;
+}
+.btn-info-template{
+  margin-left: auto;
+}
+.tmp{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
 }
