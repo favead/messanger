@@ -1,6 +1,7 @@
 import os
 from . import config
 from flask import Flask, render_template, g
+from flaskr.models import base
 
 def create_app(test_config=None):
   
@@ -21,10 +22,11 @@ def create_app(test_config=None):
   def index():
     return render_template('index.html')
 
-  from . import auth
+  from flaskr.controllers import auth
   app.register_blueprint(auth.bp)
 
-  from . import profile
+  from flaskr.controllers import profile
   app.register_blueprint(profile.bp)    
+
 
   return app

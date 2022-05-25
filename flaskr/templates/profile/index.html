@@ -17,8 +17,8 @@
         </div>
         <div class="card-body">
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">Username: {{ username }}</li>
-            <li class="list-group-item">Email: {{ email }}</li>
+            <li class="list-group-item">Username: {{ user_.username }}</li>
+            <li class="list-group-item">Email: {{ user_.email }}</li>
             <li class="list-group-item li-profile">
               <form action="/auth/logout" method="post" class="user-form-profile">
                 <button type="submit" class = "btn btn-primary">Log Out</button>

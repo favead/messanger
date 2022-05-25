@@ -7,12 +7,12 @@ const search = `
 `
 
 
-const userInfoTemplate = (id, username, email, btnValue) => {
+const userInfoTemplate = (classname, username, btnValue) => {
   return `
     <li class="list-group-item search-item-profile">
-      <div class = "tmp">
+      <div class = ' ${classname} '>
         <p class = "tmp-p">Username: ${ username }</p>
-        <button class = "btn btn-primary btn-info-template" id = ${id} >${btnValue}</button>
+        <button class = 'btn btn-primary btn-info-template' >${btnValue}</button>
       </div>
     </li>
   `
@@ -109,7 +109,12 @@ function searchLogic(block, btnFrReq, btnSearch){
       let data = null
       send_search_request(jsondata, 'search', block)
     }
-    addFriendBtn = document.querySelectorAll()
+    resultUsersList = document.querySelectorAll('.sender')
+    resultUsersList.forEach((item)=>{
+      item.addEventListener('click', function(e){
+        if(e.target.classList.contains('btn'))
+      })
+    })
   })
 }
 
@@ -167,9 +172,8 @@ function showSearchResults(block, data, blockClass) {
   if (k) {
     block.removeChild(k)
   }
-  data.forEach((item, i)=>{
-    arr = item[`${i}`]
-    k = userInfoTemplate(arr[0], arr[1], arr[2], 'Send request')
+  data.forEach((item)=>{
+    k = userInfoTemplate('sender', item.username, 'Send request')
     createBlock('user-search-res', k, block)
   })
 }

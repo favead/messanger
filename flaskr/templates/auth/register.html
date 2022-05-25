@@ -1,10 +1,9 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
-  {% if error %}
-    <p> {{ error }} </p>
-  {% endif %}
+  {% for message in get_flashed_messages() %}
+    <div class=flash>{{ message }}</div>
+  {% endfor %}
   <div class="card form">
     <div class="card-body">
       <form method="post">
