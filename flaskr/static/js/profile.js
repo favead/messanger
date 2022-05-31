@@ -48,8 +48,6 @@ function createBlock(classStr, inner, block) {
 
 
 function start() {
-  get_data_about_requests()
-
   const searchDiv = document.createElement('div')
   searchDiv.innerHTML = search
   const btnSearch = document.getElementById('search')
@@ -65,6 +63,8 @@ function start() {
       deleteBlocks(block, searchClass, 'user-search-res')
       toggleClassList(e, btnSearch, btnFrReq)
       createBlock(requestClass, requests, block)
+      let reqblock = document.querySelector(`.${requestClass}`)
+      requestLogic(reqblock)
     }
     if (e.target == btnSearch){
       toggleClassList(e, btnSearch, btnFrReq)
@@ -73,6 +73,29 @@ function start() {
   })
 
 
+}
+
+
+function requestLogic(block){
+  url = 'requests'
+  body = null
+  callback = (data, block) => {
+    data = JSON.parse(data).data
+    console.log(data)
+    if(!(data == 'null' || data == null)){
+      generateRequests(data, block, 'requester', 'info-about-requests')
+
+    }
+  }
+  send_request(body, url, callback, block)
+}
+
+
+function generateRequests(data, block, tmpClass, blockClass){
+  data.forEach((item)=>{
+    k = userInfoTemplate(tmpClass, item.username, 'Accept')
+    createBlock(blockClass, k, block)
+  })
 }
 
 
@@ -100,7 +123,7 @@ function searchLogic(block, btnFrReq, btnSearch){
   searchInput.addEventListener('keyup', function(e) {
   let search = e.target.value
   if (!search) {
-    k = document.querySelector(`.user-search-res`)
+    k = document.querySelector(`.${searchClass}`)
     if (k) {
       block.removeChild(k)
     }
@@ -109,40 +132,47 @@ function searchLogic(block, btnFrReq, btnSearch){
       let data = null
       send_search_request(jsondata, 'search', block)
     }
-    resultUsersList = document.querySelectorAll('.sender')
-    resultUsersList.forEach((item)=>{
-      item.addEventListener('click', function(e){
-        if(e.target.classList.contains('btn'))
-      })
-    })
   })
 }
 
-
-function get_requests(){
-  if (get_data_about_requests()) {
-  }
-}
-
-
-function get_data_about_requests(){
-  const data = send_request(null, 'requests')
-  return data
-}
 
 function send_search_request(jsondata, url, block) {
   callb = (data, block) => {
     data = JSON.parse(data).data
     if (data) {
-      showSearchResults(block, data, searchClass)
+      showSearchResults(block, data, 'sender', searchClass)
+      send_friend_request()
     } else {
       k = document.querySelector(`.user-search-res`)
-      if (k) {
+      if (k) {  
         block.removeChild(k)
       }
     }
   }
   send_request(jsondata, url, callb, block)
+}
+
+
+function send_friend_request(){
+  resultUsersList = document.querySelectorAll('.sender')
+  resultUsersList.forEach((item)=>{
+    item.addEventListener('click', function(e){
+      btn = item.children[1]
+      console.log(btn)
+      if (e.target == btn) {
+        p = item.children[0].innerHTML.split(': ')
+        inf = {}
+        inf[p[0].toLowerCase()] = p[1]
+        body = JSON.stringify(inf)
+        url = 'send_friend_request'
+        callback = (data, block) => {
+          data = JSON.parse(data)
+          block.textContent = data
+        }
+        send_request(body, url, callback, btn)
+      }
+    })
+  })
 }
 
 
@@ -167,37 +197,18 @@ function send_request(body, url, callback, block) {
   }
 }
 
-function showSearchResults(block, data, blockClass) {
+
+function showSearchResults(block, data, tmpClass, blockClass) {
   k = document.querySelector(`.user-search-res`)
   if (k) {
     block.removeChild(k)
   }
   data.forEach((item)=>{
-    k = userInfoTemplate('sender', item.username, 'Send request')
-    createBlock('user-search-res', k, block)
+    k = userInfoTemplate(tmpClass, item.username, 'Send request')
+    createBlock(blockClass, k, block)
   })
 }
 
 
 document.addEventListener('DOMContentLoaded',start)
 
-
-let b = `
-{% if users %}
-  <div class="search-results card-form">
-    <div class="card-body">
-      <ul class="list-group list-group-flush">
-        {% for user in users %}
-          <li class="list-group-item">Username: {{ user.username }}</li>
-          <li class="list-group-item">Email: {{ user.email }}</li>
-          <form action="/profile/add_friend" method="post">
-            <input type="hidden" value="{{ user.username }}" name = "username" required>
-            <input type="hidden" value="{{ user.email }}" name = "email" required>
-            <button type="submit" class = "btn btn-primary">Add friend</button>
-          </form>
-        {% endfor %}
-      </ul>
-    </div>
-  </div>        
-{% endif %}
-`

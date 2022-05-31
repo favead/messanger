@@ -3,6 +3,7 @@ import click
 import os
 from flaskr.config import cfg
 
+
 database = SqliteDatabase(cfg['DATABASE'])
 
 

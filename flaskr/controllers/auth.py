@@ -27,7 +27,7 @@ def register():
             password = password,
             email = email
           )
-          auth_user(user)
+          auth_user(user_)
           return redirect(url_for('index'))
         except IntegrityError:
           flash('That username/email is already taken')
@@ -68,6 +68,7 @@ def login():
 def logout():
   if request.method == 'POST':
     logout_user()
+  return redirect(url_for('index'))
 
 
 def logout_user():
