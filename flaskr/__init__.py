@@ -1,7 +1,7 @@
 import os
 from . import config
 from flask import Flask, render_template, g
-from flaskr.models import base
+from flaskr.db import base
 
 def create_app(test_config=None):
   
