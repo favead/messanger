@@ -62,8 +62,8 @@ const generateTemplateForUserInfo = (divClass, pClass, btnClass, username, btnVa
 const documentReadyHandler = () => {
   const searchButton = $(`#${styles.searchSectionBtn}`)
   const requestButton = $(`#${styles.requestSectionBtn}`)
-  requestButton.addClass(styles.forActiveSectionBtn)
-  searchButtonClickHandler()
+  searchButton.addClass(styles.forActiveSectionBtn)
+  searchButtonClickLogic()
   searchButton.click(searchButtonClickHandler)
   requestButton.click(requestButtonClickHandler)
 }
@@ -108,8 +108,13 @@ const keyUpSearchInputCallback = (data) => {
 }
 
 
-const searchButtonClickHandler = () => {
-  toggleClassListForBtns()
+const searchButtonClickHandler = (e) => {
+  toggleClassListForBtns(e)
+  searchButtonClickLogic()
+}
+
+
+const searchButtonClickLogic = () => {
   removeElemsFromMainBlock()
   appendElemToMainBlock(searchInput, styles.forSearchInput)
   searchInputElement = $(`.${styles.forSearchInput}`)
@@ -117,8 +122,8 @@ const searchButtonClickHandler = () => {
 }
 
 
-const requestButtonClickHandler = () => {
-  toggleClassListForBtns()
+const requestButtonClickHandler = (e) => {
+  toggleClassListForBtns(e)
   removeElemsFromMainBlock()
   getAllFriendRequests()
 }
@@ -185,13 +190,14 @@ const parseData = (data) => {
 }
 
 
-const toggleClassListForBtns = () => {
+const toggleClassListForBtns = (e) => {
   const searchButton = $(`#${styles.searchSectionBtn}`)
   const requestButton = $(`#${styles.requestSectionBtn}`)
   const btns = [searchButton, requestButton]
   btns.forEach((btn)=>{
-    btn.toggleClass(styles.forActiveSectionBtn)
+    btn.removeClass(styles.forActiveSectionBtn)
   })
+  e.target.classList.add(styles.forActiveSectionBtn)
 }
 
 

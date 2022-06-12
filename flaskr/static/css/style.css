@@ -40,19 +40,19 @@ body {
   margin-left: auto;
 }
 .wrapper-index{
-  margin: 2% !important;
-  min-height: 29rem;
+  margin: 1% 2% 0 12% !important;
+  min-height: 30rem;
   min-width: 1rem;
   display: flex;
   flex-direction: row;
 }
 .friend-list-index{
-  width: 45%;
-  background-color: green;
+  width: 28%;
+  background-color: #bfbfbf;
 }
 .messages-list-index{
-  background-color: red;
-  margin-left: auto !important;
+  width: 55%;
+  margin-right: auto;
 }
 .form{
   max-width: 40%;
@@ -121,4 +121,28 @@ body {
   width: 100%;
   display: flex;
   flex-direction: row;
+}
+.messages-div{
+  height: 100%;
+}
+.message-card, .message-card-body{
+  height: 100%;
+}
+.messages-field{
+  min-height: 80%;
+}
+.send-message-field{
+  margin-left: 2%;
+}
+.send-message-field-text{
+  width:100%;
+  display:flex;
+  flex-direction: row;
+}
+.message-text-field{
+  width: 85%;
+}
+.send-message-field-btn{
+  margin: auto 1% auto auto;
+  height: 50%
 }
