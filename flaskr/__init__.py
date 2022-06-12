@@ -1,6 +1,7 @@
 import os
 from . import config
 from flask import Flask, render_template, g
+from flaskr.db import init_tables
 from flaskr.db import base
 
 def create_app(test_config=None):
@@ -18,9 +19,8 @@ def create_app(test_config=None):
   except OSError:
       pass
 
-  @app.route('/')
-  def index():
-    return render_template('index.html')
+
+
 
   from flaskr.controllers import auth
   app.register_blueprint(auth.bp)
@@ -28,5 +28,19 @@ def create_app(test_config=None):
   from flaskr.controllers import profile
   app.register_blueprint(profile.bp)    
 
+  from flaskr.controllers import messanger
+  app.register_blueprint(messanger.bp)
+  app.add_url_rule('/', view_func=messanger.index)
+
+  @app.before_request
+  def _db_connect():
+      base.database.connect()
+
+  @app.teardown_request
+  def _db_close(exc):
+      if not base.database.is_closed():
+          base.database.close()
+
+  init_tables()
 
   return app

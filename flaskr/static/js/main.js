@@ -8,11 +8,11 @@ const searchInput = `
 
 
 const URLS = {
-  getAllFriends: 'get_all_friends',
+  getAllFriends: 'friends',
   getAllFriendRequests: 'requests',
-  acceptFriendRequest: 'accept_friend_request',
+  acceptFriendRequest: 'requests/update',
   getAllUsersByPartOfName: 'search',
-  sendFriendRequest: 'send_friend_request'
+  sendFriendRequest: 'requests/create'
 }
 
 
@@ -71,6 +71,7 @@ const documentReadyHandler = () => {
 
 const keyUpSearchInputHandler = (e) => {
   let partOfName = e.target.value
+  console.log(partOfName)
   if(partOfName === ''){
     removeElemsFromMainBlock(2)
   } else {

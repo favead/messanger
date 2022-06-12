@@ -1,4 +1,4 @@
-from flaskr.models import auth
+from flaskr.models.auth import auth
 
 
 def test_verivy_form():

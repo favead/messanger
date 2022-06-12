@@ -3,6 +3,11 @@
 {% block content %}
   <div class="wrapper-index container">
     <div class="friend-list-index container">
+      {% for user in friends %}
+        <div class="card">
+          <p class="username"> {{ user['username'] }} </p>
+        </div>
+      {% endfor %}
     </div>
     <div class="messages-list-index container">
     </div>
