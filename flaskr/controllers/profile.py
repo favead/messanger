@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, request, jsonify
 from flaskr.models.friends import create_friend_request, get_friends_for_user
-from flaskr.models.friends import get_current_user, update_friend_request, get_friend_requests
+from flaskr.models.friends import update_friend_request, get_friend_requests
 from flaskr.models.friends import find_user_by_name
+from flaskr.models.user import get_current_user
 from flaskr.models.error import FlaskrError
 
 bp = Blueprint('profile', __name__, url_prefix='/profile')

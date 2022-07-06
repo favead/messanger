@@ -5,7 +5,7 @@
   margin: 0;
 }
 body {
-  background-color: #dff9ff;
+  background-color: #ebe1a53d;
 }
 .header{
   min-width: 100%;
@@ -13,13 +13,13 @@ body {
   margin: 0 !important;
   height: 60px;
   background-color: #fff;
+  border-bottom: 2px solid black;
 }
 .wrapper{
   padding: 0 !important;
   background-color: #fafafa;
-  min-height: 36rem;
-  min-width: 95%;
-  margin: 20px auto;
+  min-height: 35rem;
+  min-width: 100%;
 }
 .menu{
   display: flex;
@@ -41,7 +41,7 @@ body {
 }
 .wrapper-index{
   margin: 1% 2% 0 12% !important;
-  min-height: 30rem;
+  min-height: 34rem;
   min-width: 1rem;
   display: flex;
   flex-direction: row;
@@ -129,12 +129,14 @@ body {
   height: 100%;
 }
 .messages-field{
-  min-height: 80%;
+  height:85%;
 }
 .send-message-field{
-  margin-left: 2%;
+  height:13%;
+  margin: auto 0 auto 2%;
 }
 .send-message-field-text{
+  height:100%;
   width:100%;
   display:flex;
   flex-direction: row;
@@ -143,6 +145,14 @@ body {
   width: 85%;
 }
 .send-message-field-btn{
+  background-color: rgb(85,136,240);
   margin: auto 1% auto auto;
   height: 50%
+}
+.active-li-messages{
+  background-color:blueviolet;
+  color:white;
+}
+.friend-item-messanger{
+  cursor: pointer;
 }

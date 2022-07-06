@@ -7,6 +7,6 @@ from flaskr.config import cfg
 database = SqliteDatabase(cfg['DATABASE'], autoconnect=False)
 
 
-class BaseModel(Model):
+class Base():
   class Meta:
     database = database

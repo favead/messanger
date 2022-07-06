@@ -1,12 +1,11 @@
 from peewee import *
-from flaskr.db.user import UserModel
-from flaskr.db.base import BaseModel, database
+from flaskr.db.user import User
+from flaskr.db.base import Base, database
+from flaskr.db.relationship import Relationship
 
-
-class FriendModel(BaseModel):
+class Friend(Base):
   status = IntegerField(default=0)
-  from_user = ForeignKeyField(UserModel)
-  to_user = ForeignKeyField(UserModel)   
+  user_relationship = ForeignKeyField(Relationship) 
   # 1 - accepted
   # 0 - sended 
 
@@ -14,7 +13,7 @@ class FriendModel(BaseModel):
   def create_friend_request(cls, from_user, to_user):
     try:
       with database.atomic():
-        friend_request = FriendModel.create(
+        friend_request = Friend.create(
           from_user=from_user,
           to_user=to_user
         )
@@ -26,15 +25,15 @@ class FriendModel(BaseModel):
   def get_all_requests(cls, user):
     try:
       with database.atomic():
-        friend_requests = (FriendModel
+        friend_requests = (Friend
           .select()
           .where(
-            (FriendModel.to_user == user)
+            (Friend.to_user == user)
             &
-            (FriendModel.status == 0)
+            (Friend.status == 0)
           )
         )
-    except FriendModel.DoesNotExist:
+    except Friend.DoesNotExist:
       friend_requests = None
     return friend_requests
 
@@ -42,19 +41,19 @@ class FriendModel(BaseModel):
   def get_all_friends(cls, user):
     try:
       with database.atomic():
-        friends = (FriendModel
+        friends = (Friend
           .select()
           .where(
-            (FriendModel.status == 1)
+            (Friend.status == 1)
              &
             (
-              (FriendModel.from_user == user)
+              (Friend.from_user == user)
                | 
-              (FriendModel.to_user == user)
+              (Friend.to_user == user)
             )
           )
         )
-    except FriendModel.DoesNotExist:
+    except Friend.DoesNotExist:
       friends = None
     return friends
 
@@ -62,14 +61,14 @@ class FriendModel(BaseModel):
   def update_friend_request(cls, status: int, from_user, to_user):
     try:
       with database.atomic():
-        new_request = (FriendModel
-        .update({FriendModel.status: status})
+        new_request = (Friend
+        .update({Friend.status: status})
         .where(
-          (FriendModel.from_user == from_user)
+          (Friend.from_user == from_user)
            &
-          (FriendModel.to_user == to_user)
+          (Friend.to_user == to_user)
         )
         .execute())
-    except FriendModel.DoesNotExist:
+    except Friend.DoesNotExist:
       new_request = None
     return new_request

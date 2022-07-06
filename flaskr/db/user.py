@@ -1,8 +1,8 @@
 from peewee import *
-from flaskr.db.base import BaseModel, database
+from flaskr.db.base import Base, database
 
 
-class UserModel(BaseModel):
+class User(Base):
   username = CharField(unique=True)
   password = CharField()
   email = CharField(unique=True)
@@ -11,7 +11,7 @@ class UserModel(BaseModel):
   def create_user(cls, username: str, password: str, email: str):
     try:
       with database.atomic():
-        user = UserModel.create(
+        user = User.create(
         username=username,
         password=password,
         email=email
@@ -24,8 +24,8 @@ class UserModel(BaseModel):
   def get_user(cls, username: str):
     try:
       with database.atomic():
-        user = UserModel.get(UserModel.username == username)
-    except UserModel.DoesNotExist:
+        user = User.get(User.username == username)
+    except User.DoesNotExist:
       user = None
     return user
 
@@ -33,10 +33,10 @@ class UserModel(BaseModel):
   def get_user_by_part_of_name(cls, part_of_name: str):
     try:
       with database.atomic():
-        users = (UserModel
+        users = (User
         .select()
-        .where(UserModel.username.contains(part_of_name))
+        .where(User.username.contains(part_of_name))
         )
-    except UserModel.DoesNotExist:
+    except User.DoesNotExist:
       users = None
     return users
