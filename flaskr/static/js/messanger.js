@@ -4,9 +4,16 @@ const styles = {
   mainBlock: 'message-card-body',
   messageField:'messages-field',
   messageInputField: 'message-text-field',
-  messageButtonField: 'send-message-field-btn'
+  messageButtonField: 'send-message-field-btn',
+  message: "message",
+  fromYou: "message-from-you"
 }
 
+const URLS = {
+  createMessage: 'messages/create',
+  getMessages: 'messages',
+  updateMessage: 'messages/update'
+}
 
 $('document').ready(function(){
   documentReadyHandler()
@@ -18,28 +25,74 @@ const documentReadyHandler = () => {
   friends.click(friendClickHandler)
 }
 
-
-const friendClickHandler = (e) => {
-  const userId = e.target.id
-  toggleActiveClass(e)
-  removeElemsFromMainBlock()
-  $(`.${styles.mainBlock}`).append($(messageTemplate(2)))
+const getUserId = () => {
+  return $(`.${styles.friendItemOpenedMessages}`)[0].id
 }
 
+const friendClickHandler = (e) => {
+  toggleActiveClass(e)
+  removeElemsFromMainBlock()
+  $(`.${styles.mainBlock}`).append($(messagesTemplate(getUserId())))
+  showMessageHistory()
+  $(`.${styles.messageButtonField}`).click(sendClickHandler)
+}
+
+const showMessageHistory = () => {
+  let id = getUserId()
+  let data = JSON.stringify({'user_id': id})
+  
+  const callback = (data) => {
+    data = parseData(data)
+    data.forEach((message)=>{
+      showMessage(message)
+    })
+  }
+
+  sendRequest(URLS.getMessages, data, callback)
+
+}
+
+const sendClickHandler = (e) => {
+  let messageContent = $(`.${styles.messageInputField}`)[0]
+  let id = getUserId()
+  let data = JSON.stringify({'user_id': id, 'content': messageContent.value})
+  messageContent.value = ''
+  const callback = (data) => {
+    data = parseData(data)
+    if (data) {
+      showMessage(data)
+    }
+  }
+  sendRequest(URLS.createMessage, data, callback)
+}
+
+const showMessage = (data) => {
+  $(`.${styles.messageField}`).append($(messageTemplate(data)))
+  if (data.author_id != getUserId()) {
+    $(`.${styles.message}`).addClass(styles.fromYou)
+  }
+}
 
 const toggleActiveClass = (e) => {
   e.currentTarget.classList.remove(styles.friendItemOpenedMessages)
   e.currentTarget.classList.add(styles.friendItemOpenedMessages)
 }
 
+const messageTemplate = (data) => (
+  `<div class="${styles.message}-wrapper">
+      <div class="${styles.message}">
+        <p> ${data.content} </p>
+      </div>
+  </div>`
+)
 
-const messageTemplate = (currentUserId) => (`
+const messagesTemplate = (currentUserId) => (`
   <div class="messages-field">
   </div>
   <div class="send-message-field">
     <div class="send-message-field-text">
-      <textarea name="message" id="${currentUserId}" class="form-control message-text-field"></textarea>
-      <button class="send-message-field-btn btn btn-primary">Send</button>
+      <textarea name="message" id="${currentUserId}" class="form-control ${styles.messageInputField}"></textarea>
+      <button class=" ${styles.messageButtonField} btn btn-primary">Send</button>
     </div>
   </div>
 `)
@@ -54,7 +107,6 @@ const removeElemsFromMainBlock = (stopBlock=null) => {
     --c;
   }
 }
-
 
 const sendRequest = (url, body, callback) => {
   $.ajax({

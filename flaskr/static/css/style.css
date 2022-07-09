@@ -42,6 +42,7 @@ body {
 .wrapper-index{
   margin: 1% 2% 0 12% !important;
   min-height: 34rem;
+  max-height: 34rem;
   min-width: 1rem;
   display: flex;
   flex-direction: row;
@@ -129,7 +130,10 @@ body {
   height: 100%;
 }
 .messages-field{
+  display: flex;
+  flex-direction: column;
   height:85%;
+  overflow-y: scroll;
 }
 .send-message-field{
   height:13%;
@@ -155,4 +159,25 @@ body {
 }
 .friend-item-messanger{
   cursor: pointer;
+}
+.message-wrapper{
+  margin-top:1%;
+  width: 100%;
+  margin-bottom: 1%;
+}
+.message{
+  display: flex;
+  padding: 1% 2% 1% 2%;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 14%;
+  background-color: #bffcc2;
+  float: left;
+  align-items: center;
+}
+.message p{
+  margin-bottom: 0 !important;
+}
+.message-from-you{
+  float:right !important;
 }

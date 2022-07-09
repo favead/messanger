@@ -41,6 +41,6 @@ def create_app(test_config=None):
       if not base.database.is_closed():
           base.database.close()
 
-  init_tables()
+  #init_tables()
 
   return app

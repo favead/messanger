@@ -6,5 +6,6 @@ from flaskr.db.relationship import Relationship
 
 def init_tables():
   database.connect()
-  database.create_tables([User, Friend, Message, Relationship])
+  database.drop_tables([ User, Friend, Message, Relationship ])
+  database.create_tables([ User, Friend, Message, Relationship ])
   database.close()

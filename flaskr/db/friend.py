@@ -13,62 +13,74 @@ class Friend(Base):
   def create_friend_request(cls, from_user, to_user):
     try:
       with database.atomic():
+        relationship = Relationship.create_relationship(from_user, to_user)
         friend_request = Friend.create(
-          from_user=from_user,
-          to_user=to_user
+          user_relationship=relationship
         )
     except IntegrityError:
       friend_request = None
     return friend_request
   
   @classmethod
-  def get_all_requests(cls, user):
+  def get_all_requests(cls, user: User):
+    friend_requests = []
     try:
       with database.atomic():
-        friend_requests = (Friend
-          .select()
-          .where(
-            (Friend.to_user == user)
-            &
-            (Friend.status == 0)
-          )
-        )
+        friend_requests = cls.__get_all_template(user, 0)
     except Friend.DoesNotExist:
       friend_requests = None
     return friend_requests
 
   @classmethod
-  def get_all_friends(cls, user):
+  def get_all_friends(cls, user: User):
+    friends = []
     try:
       with database.atomic():
-        friends = (Friend
-          .select()
-          .where(
-            (Friend.status == 1)
-             &
-            (
-              (Friend.from_user == user)
-               | 
-              (Friend.to_user == user)
-            )
-          )
-        )
+        friends = cls.__get_all_template(user, 1)
     except Friend.DoesNotExist:
       friends = None
+    print(friends)
     return friends
 
   @classmethod
-  def update_friend_request(cls, status: int, from_user, to_user):
-    try:
-      with database.atomic():
-        new_request = (Friend
-        .update({Friend.status: status})
-        .where(
-          (Friend.from_user == from_user)
-           &
-          (Friend.to_user == to_user)
+  def __get_all_template(cls, user: User, status_code: int):
+    relationships = []
+    users_list = []
+    if status_code == 0:
+      relationships = Relationship.get_relationships_by_user(user)
+    elif status_code == 1:
+      relationships = Relationship.get_relationships(user)  
+
+    if relationships is not None:
+      for relationship in relationships:
+        users = (
+          (Friend
+          .select()
+          .where(
+            (Friend.user_relationship == relationship) 
+            &
+            (Friend.status == status_code)
+          ))
         )
-        .execute())
+        users_list = [u.user_relationship.from_user if u.user_relationship.from_user != user else u.user_relationship.to_user for u in users]
+        return users_list
+    else:
+      return None
+
+  @classmethod
+  def update_friend_request(cls, status: int, from_user: User, to_user: User):
+    try:
+      relationship = Relationship.get_relationship(from_user, to_user)
+      if relationship is not None:
+        with database.atomic():
+          new_request = (Friend
+          .update({Friend.status: status})
+          .where(
+            Friend.user_relationship == relationship
+          )
+          .execute())
+      else:
+        new_request = None  
     except Friend.DoesNotExist:
       new_request = None
     return new_request
