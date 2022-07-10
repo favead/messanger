@@ -5,6 +5,7 @@ from peewee import *
 from datetime import datetime as dt
 
 class Message(Base):
+  author = ForeignKeyField(User)
   user_relationship = ForeignKeyField(Relationship)
   is_read = BooleanField(default=False)
   content = TextField()
@@ -19,13 +20,15 @@ class Message(Base):
         if relationship is not None:
           message = Message.create(
             user_relationship=relationship,
-            content=content
+            content=content,
+            author=from_user
           )
         else:
           message = None
     except IntegrityError:
       message = None
     return message
+
 
   @classmethod
   def get_messages(cls, from_user, to_user):

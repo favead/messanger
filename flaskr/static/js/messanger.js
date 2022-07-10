@@ -6,19 +6,19 @@ const styles = {
   messageInputField: 'message-text-field',
   messageButtonField: 'send-message-field-btn',
   message: "message",
-  fromYou: "message-from-you"
+  fromYou: "message-from-you",
 }
 
 const URLS = {
   createMessage: 'messages/create',
   getMessages: 'messages',
-  updateMessage: 'messages/update'
+  updateMessage: 'messages/update',
+  getUserId: 'auth/getId'
 }
 
 $('document').ready(function(){
   documentReadyHandler()
 })
-
 
 const documentReadyHandler = () => {
   let friends = $(`.${styles.friendItem}`)
@@ -68,8 +68,8 @@ const sendClickHandler = (e) => {
 
 const showMessage = (data) => {
   $(`.${styles.messageField}`).append($(messageTemplate(data)))
-  if (data.author_id != getUserId()) {
-    $(`.${styles.message}`).addClass(styles.fromYou)
+  if (data.author == getAuthorId()) {
+    $(`.${styles.message}#${data.id}`).addClass(styles.fromYou)
   }
 }
 
@@ -80,7 +80,7 @@ const toggleActiveClass = (e) => {
 
 const messageTemplate = (data) => (
   `<div class="${styles.message}-wrapper">
-      <div class="${styles.message}">
+      <div class="${styles.message}" id="${data.id}">
         <p> ${data.content} </p>
       </div>
   </div>`
@@ -134,3 +134,16 @@ const appendElemToMainBlock = (elemInnerHtml, classElem) => {
   const elem = $(elemInnerHtml).addClass(classElem)
   $(`.${styles.mainBlock}`).append(elem)
 }
+
+const getAuthorId = function current_id() {
+  let CURRENT_USER_ID = null 
+  sendRequest(URLS.getUserId, null, (data) => {
+    if (data.id) {
+      CURRENT_USER_ID = data.id
+    }
+  })
+  const getCurrentId = () => {
+    return CURRENT_USER_ID
+  }
+  return getCurrentId
+}()

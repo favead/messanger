@@ -1,5 +1,5 @@
 from peewee import *
-from flask import redirect, render_template, Blueprint, request, flash, url_for
+from flask import jsonify, redirect, render_template, Blueprint, request, flash, url_for
 from flaskr.models.auth import *
 from flaskr.models.error import FlaskrError
 
@@ -43,6 +43,15 @@ def logout():
   if request.method == 'POST':
     logout_user()
     return redirect_to('index')
+
+
+@bp.route('/getId', methods=['POST'])
+def get_id():
+  if user_is_logged_in():
+    print(get_user_id())
+    return jsonify({'id': get_user_id()})
+  else:
+    return jsonify({'id':'null'})
 
 
 def _verify_form(form_data: dict) -> str:

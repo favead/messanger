@@ -43,7 +43,6 @@ def create_new_message():
   except FlaskrError as e:
     return jsonify({'data': 'null'})
   else:
-    message['author_username'] = current_user.username
     return jsonify({'data': message})
 
 @bp.route('/messages/update', methods=['POST'])

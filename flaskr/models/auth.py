@@ -40,3 +40,9 @@ def auth_user(user_):
   session['user_id'] = user_['id']
   session['username'] = user_['username']
   session['email'] = user_['email']
+
+def user_is_logged_in():
+  return session['logged_in']
+
+def get_user_id():
+  return session['user_id']
